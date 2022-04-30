@@ -3,7 +3,7 @@ package app
 import (
 	"fmt"
 
-	"github.com/DeVasu/gotoken-api/datasources/mysql/users_db"
+	"github.com/DeVasu/gotoken-api/datasources/mysql/cashiers_db"
 	"github.com/federicoleon/bookstore_utils-go/logger"
 	"github.com/gin-gonic/gin"
 )
@@ -29,7 +29,7 @@ func StartApplication() {
 	fmt.Println("Please input your MYSQL db_name(where cashiers Table exists): ")
 	fmt.Scanln(&db_name)
 
-	users_db.Init(username, password, host, db_name)
+	cashiers_db.Init(username, password, host, db_name)
 
 
 	mapUrls()
