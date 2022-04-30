@@ -2,7 +2,7 @@
 - [x] Cashiers API 
 - [x] Login API
 - [ ] Product API
-- [ ] Category API
+- [x] Category API
 - [ ] Payment API
 - [ ] Order API
 - [ ] Report API
