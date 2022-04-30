@@ -1,0 +1,23 @@
+package app
+
+import (
+	"github.com/DeVasu/gotoken-api/controllers/cashiers"
+	"github.com/DeVasu/gotoken-api/controllers/categories"
+	"github.com/DeVasu/gotoken-api/controllers/ping"
+)
+
+func mapUrls() {
+	router.GET("/ping", ping.Ping)
+
+	router.GET("/cashiers", cashiers.List)
+	router.POST("/cashiers", cashiers.Create)
+	router.PUT("/cashiers/:cashierId", cashiers.Update)
+	router.DELETE("/cashiers/:cashierId", cashiers.Delete)
+	router.POST("/cashiers/:cashierId/login", cashiers.Common)
+	router.POST("/cashiers/:cashierId/logout", cashiers.Common)
+	router.GET("/cashiers/:cashierId/passcode", cashiers.Common)
+
+	router.GET("/categories", categories.List)
+	router.POST("/categories", categories.Create)
+
+}
