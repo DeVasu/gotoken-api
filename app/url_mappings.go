@@ -19,5 +19,8 @@ func mapUrls() {
 
 	router.GET("/categories", categories.List)
 	router.POST("/categories", categories.Create)
+	router.GET("/categories/:categoryId", categories.GetById)
+	router.PUT("/categories/:categoryId", categories.Update)
+	router.DELETE("/categories/:categoryId", categories.Delete)
 
 }

@@ -131,19 +131,19 @@ func GetPasscode(c *gin.Context) {
 
 func Delete(c *gin.Context) {
 
-	cashierId, idErr := getUserId(c.Param("cashierId"))
+	categoryId, idErr := getUserId(c.Param("categoryId"))
 	if idErr != nil {
 		c.JSON(idErr.Status(), idErr)
 		return
 	}
 
-	var temp cashiers.Cashier
+	var temp categories.Category
 	// if err := c.ShouldBindJSON(&temp); err != nil {
 	// 	c.JSON(http.StatusBadGateway, err)
 	// 	return
 	// }
 
-	temp.Id = cashierId
+	temp.Id = categoryId
 	fmt.Println(temp)
 	err := temp.Delete()
 	if err != nil {
@@ -157,19 +157,19 @@ func Delete(c *gin.Context) {
 
 func Update(c *gin.Context) {
 
-	cashierId, idErr := getUserId(c.Param("cashierId"))
+	categoryId, idErr := getUserId(c.Param("categoryId"))
 	if idErr != nil {
 		c.JSON(idErr.Status(), idErr)
 		return
 	}
 
-	var temp cashiers.Cashier
+	var temp categories.Category
 	if err := c.ShouldBindJSON(&temp); err != nil {
 		c.JSON(http.StatusBadGateway, err)
 		return
 	}
 
-	temp.Id = cashierId
+	temp.Id = categoryId
 
 	err := temp.Update()
 	if err != nil {
@@ -183,22 +183,20 @@ func Update(c *gin.Context) {
 
 func GetById(c *gin.Context) {
 	
-	cashierId, idErr := getUserId(c.Param("cashierId"))
+	categoryId, idErr := getUserId(c.Param("categoryId"))
 	if idErr != nil {
 		c.JSON(idErr.Status(), idErr)
 		return
 	}
-	result := &cashiers.Cashier{
-		Id: cashierId,
+	result := &categories.Category{
+		Id: categoryId,
 	}
 	err := result.GetById()
 	if err != nil {
 		c.JSON(err.Status(), err)
 		return
 	}
-	result.Passcode="access denied"
 	c.JSON(http.StatusOK, result)
-
 }
 
 //i want to list cashiers
