@@ -18,10 +18,10 @@ var (
 
 func Init(us, ps, hs, db_name string) {
 	dataSourceName := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8",
-		username,
-		password,
-		host,
-		name,
+		us,
+		ps,
+		hs,
+		db_name,
 	)
 	var err error
 	Client, err = sql.Open("mysql", dataSourceName)
