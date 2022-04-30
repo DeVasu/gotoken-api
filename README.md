@@ -20,3 +20,6 @@
 
 * GET `/categories` --> List Categories
 * POST `/categories` --> Create Categories
+
+## Points To Remember
+* Database with tables cashiers and categories should already be existing on you mysql server
