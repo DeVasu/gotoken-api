@@ -10,6 +10,7 @@ func mapUrls() {
 	router.GET("/ping", ping.Ping)
 
 	router.GET("/cashiers", cashiers.List)
+	router.GET("/cashiers/:cashierId", cashiers.GetById)
 	router.POST("/cashiers", cashiers.Create)
 	router.PUT("/cashiers/:cashierId", cashiers.Update)
 	router.DELETE("/cashiers/:cashierId", cashiers.Delete)

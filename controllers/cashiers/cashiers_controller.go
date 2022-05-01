@@ -14,7 +14,6 @@ import (
 	"strings"
 
 	"github.com/DeVasu/gotoken-api/domain/cashiers"
-	"github.com/DeVasu/gotoken-api/services"
 	"github.com/federicoleon/bookstore_utils-go/rest_errors"
 	"github.com/gin-gonic/gin"
 )
@@ -196,7 +195,7 @@ func GetById(c *gin.Context) {
 		c.JSON(err.Status(), err)
 		return
 	}
-	result.Passcode="access denied"
+	result.Passcode=""
 	c.JSON(http.StatusOK, result)
 
 }
@@ -204,7 +203,8 @@ func GetById(c *gin.Context) {
 //i want to list cashiers
 func List(c *gin.Context) {
 	
-	listOf, err := services.List()
+	temp := &cashiers.Cashier{}
+	listOf, err := temp.GetList(0, 0)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, "\"{\"err\":\"wrong\"}")
@@ -212,7 +212,6 @@ func List(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, listOf)
-	return
 
 }
 
