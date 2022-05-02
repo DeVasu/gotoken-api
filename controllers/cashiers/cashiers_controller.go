@@ -14,6 +14,7 @@ import (
 	"strings"
 
 	"github.com/DeVasu/gotoken-api/domain/cashiers"
+	"github.com/DeVasu/gotoken-api/utils"
 	"github.com/federicoleon/bookstore_utils-go/rest_errors"
 	"github.com/gin-gonic/gin"
 )
@@ -21,6 +22,9 @@ import (
 
 
 func getUserId(userIdParam string) (int64, rest_errors.RestErr) {
+	if userIdParam == "" {
+		return 0, nil
+	}
 	userId, userErr := strconv.ParseInt(userIdParam, 10, 64)
 	if userErr != nil {
 		return 0, rest_errors.NewBadRequestError("user id should be a number")
@@ -204,20 +208,48 @@ func GetById(c *gin.Context) {
 func List(c *gin.Context) {
 	
 	temp := &cashiers.Cashier{}
-	listOf, err := temp.GetList(0, 0)
+
+	// limit := 100
+	// if len(c.Query("limit")) == 0 {
+	// 	limit = 
+	// }
+
+	limit, err := getUserId(c.Query("limit"))
+	if err != nil {
+		res := utils.NewFailureResponse("limit value was not parsed", utils.Meta{})
+		c.JSON(http.StatusBadRequest, res)
+		return
+	}
+	skip, err := getUserId(c.Query("skip"))
+	if err != nil {
+		res := utils.NewFailureResponse("skip value was not parsed", utils.Meta{})
+		c.JSON(http.StatusBadRequest, res)
+		return
+	}
+	listOf, err := temp.GetList(limit, skip)
+
+	fmt.Println("this is limit, skip", limit, skip)
+
+	meta := utils.Meta{
+		Limit: limit,
+		Skip: skip,
+	}
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, "\"{\"err\":\"wrong\"}")
+		fmt.Println(err.Error())
+		res := utils.NewFailureResponse("something wrong while executing query", meta)
+		c.JSON(http.StatusBadRequest, res)
 		return
 	}
 
-	c.JSON(http.StatusOK, listOf)
+	meta.Total = int64(len(listOf))
+	res := utils.NewSuccessResponse(listOf, meta)
+
+	c.JSON(http.StatusOK, res)
 
 }
 
 func Create(c *gin.Context) {
-
-	fmt.Println("got here")
 
 	res := &cashiers.Cashier{};
 	

@@ -10,15 +10,13 @@ import (
 )
 
 const (
-	queryInsertcashier             = "INSERT INTO cashiers(name, passcode) VALUES(?, ?);"
-	queryGetcashier                = "SELECT cashierId, first_name, last_name, email, date_created, status FROM cashiers WHERE id=?;"
-	queryFindByCashierId           = "SELECT cashierId, name, passcode FROM cashiers WHERE cashierId=?;"
-
-	queryUpdatecashier             = "UPDATE cashiers SET name=?, passcode=? WHERE cashierId=?;"
-	queryDeletecashier             = "DELETE FROM cashiers WHERE cashierId=?;"
-	// queryFindByStatus           = "SELECT id, first_name, last_name, email, date_created, status FROM cashiers WHERE status=?;"
-	queryFindByEmailAndPassword = "SELECT id, first_name, last_name, email, date_created, status FROM cashiers WHERE email=? AND password=? AND status=?"
-	queryListCashiers 			= "SELECT cashierId, name from cashiers;"
+	queryInsertcashier             	= "INSERT INTO cashiers(name, passcode) VALUES(?, ?);"
+	queryGetcashier                	= "SELECT cashierId, first_name, last_name, email, date_created, status FROM cashiers WHERE id=?;"
+	queryFindByCashierId           	= "SELECT cashierId, name, passcode FROM cashiers WHERE cashierId=?;"
+	queryUpdatecashier             	= "UPDATE cashiers SET name=?, passcode=? WHERE cashierId=?;"
+	queryDeletecashier             	= "DELETE FROM cashiers WHERE cashierId=?;"
+	queryFindByEmailAndPassword 	= "SELECT id, first_name, last_name, email, date_created, status FROM cashiers WHERE email=? AND password=? AND status=?"
+	queryListCashiers 				= "SELECT cashierId, name from cashiers LIMIT ? OFFSET ?;"
 )
 
 
@@ -97,14 +95,15 @@ func(cashier *Cashier) Create() rest_errors.RestErr {
 	return nil
 }
 
-func (cashier *Cashier) GetList(limit, offset int ) ([]Cashier, rest_errors.RestErr) {
+func (cashier *Cashier) GetList(limit, offset int64 ) ([]Cashier, rest_errors.RestErr) {
 	stmt, err := cashiers_db.Client.Prepare(queryListCashiers)
+	fmt.Println("inside getlist ", limit, offset)
 	if err != nil {
 		logger.Error("error when trying to prepare get cashier statement", err)
 		return nil, rest_errors.NewInternalServerError("error when tying to get cashier", errors.New("database error"))
 	}
 	defer stmt.Close()
-	rows, err := stmt.Query() //update with limit and skip
+	rows, err := stmt.Query(limit, offset) //update with limit and skip
 	if err != nil {
 		logger.Error("error when trying list cahisers", err)
 		return nil, rest_errors.NewInternalServerError("error when tying to get cashier", errors.New("database error"))
