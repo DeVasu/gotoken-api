@@ -20,6 +20,9 @@
 
 * GET `/categories` --> List Categories
 * POST `/categories` --> Create Categories
+* GET `/categories/:categoryId` --> Detail Category
+* PUT `/categories/:categoryId` --> Update Category
+* DELETE `/categories/:categoryId` --> Delete Category
 
 ## Points To Remember
-* Database with tables cashiers and categories should already be existing on you mysql server
+* Database with tables cashiers and categories should already be existing on you mysql server and you will be asked to enter that information initially

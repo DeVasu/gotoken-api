@@ -209,11 +209,6 @@ func List(c *gin.Context) {
 	
 	temp := &cashiers.Cashier{}
 
-	// limit := 100
-	// if len(c.Query("limit")) == 0 {
-	// 	limit = 
-	// }
-
 	limit, err := getUserId(c.Query("limit"))
 	if err != nil {
 		res := utils.NewFailureResponse("limit value was not parsed", utils.Meta{})
