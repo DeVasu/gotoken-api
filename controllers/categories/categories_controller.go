@@ -11,9 +11,7 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
-	"strings"
 
-	"github.com/DeVasu/gotoken-api/domain/cashiers"
 	"github.com/DeVasu/gotoken-api/domain/categories"
 	"github.com/federicoleon/bookstore_utils-go/rest_errors"
 	"github.com/gin-gonic/gin"
@@ -28,106 +26,6 @@ func getUserId(userIdParam string) (int64, rest_errors.RestErr) {
 	}
 	return userId, nil
 }
-
-func Common(c *gin.Context) {
-
-	if strings.Contains(c.Request.URL.String(), "passcode") {
-		GetPasscode(c)
-		fmt.Println("in passcode")
-	} else if strings.Contains(c.Request.URL.String(), "login") {
-		Login(c)
-		fmt.Println("in login")
-	} else if  strings.Contains(c.Request.URL.String(), "logout") {
-		Logout(c)
-	} else {
-		GetById(c)
-		fmt.Println("in getbyid")
-	}
-
-}
-
-
-func Logout(c *gin.Context) {
-	
-	cashierId, idErr := getUserId(c.Param("cashierId"))
-	if idErr != nil {
-		c.JSON(idErr.Status(), idErr)
-		return
-	}
-	var result cashiers.Cashier
-	if err := c.ShouldBindJSON(&result); err != nil {
-		c.JSON(idErr.Status(), idErr)
-		return
-	}
-
-	temp := &cashiers.Cashier{Id: cashierId,}
-	if err := temp.GetById(); err != nil {
-		c.JSON(err.Status(), err)
-		return
-	}
-
-	msg := fmt.Sprintf("{\"%s\"}:{\"%s\"}", "message", "successfully logged out")
-
-	if temp.Passcode == result.Passcode {
-		c.JSON(http.StatusOK, msg)
-	} else {
-		c.JSON(http.StatusBadRequest, "{\"token\":\"bad request\"}")
-	}
-
-
-}
-func Login(c *gin.Context) {
-	
-	cashierId, idErr := getUserId(c.Param("cashierId"))
-	if idErr != nil {
-		c.JSON(idErr.Status(), idErr)
-		return
-	}
-	var result cashiers.Cashier
-	if err := c.ShouldBindJSON(&result); err != nil {
-		c.JSON(idErr.Status(), idErr)
-		return
-	}
-
-	temp := &cashiers.Cashier{Id: cashierId,}
-	if err := temp.GetById(); err != nil {
-		c.JSON(err.Status(), err)
-		return
-	}
-
-	token := 
-		"{\"token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NDYzNjk2NDQsInN1YiI6IjEifQ.OXOV-TjfCbCCJ7z1w1osQ1lz99rK89V_Ert_Y1JUfCM\"}"
-
-	if temp.Passcode == result.Passcode {
-		c.JSON(http.StatusOK, token)
-	} else {
-		c.JSON(http.StatusBadRequest, rest_errors.NewBadRequestError("passcode not correct"))
-	}
-
-
-}
-
-func GetPasscode(c *gin.Context) {
-	
-	cashierId, idErr := getUserId(c.Param("cashierId"))
-	if idErr != nil {
-		c.JSON(idErr.Status(), idErr)
-		return
-	}
-	result := &cashiers.Cashier{
-		Id: cashierId,
-	}
-	err := result.GetById()
-	if err != nil {
-		c.JSON(err.Status(), err)
-		return
-	}
-	result.Id=0
-	result.Name=""
-	c.JSON(http.StatusOK, result)
-
-}
-
 
 func Delete(c *gin.Context) {
 

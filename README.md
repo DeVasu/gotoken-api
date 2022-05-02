@@ -11,6 +11,7 @@
 ## Current Mappings
 
 * GET `/cashiers` --> List Cashiers
+* GET `/cashiers/:cashierId` --> Detail Cashier
 * GET `/cashiers/:cashierId/passcode` --> Provides Passcode 
 * POST `/cashiers/` --> Creates Cashier
 * PUT `/cashiers/:cashierId` --> Update Cashier
