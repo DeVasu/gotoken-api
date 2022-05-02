@@ -20,14 +20,7 @@ func StartApplication() {
 	host = "localhost:3306"
 	username = "root"
 	password = ""
-	fmt.Println("Please input your MYSQL username: (default: root)")
-	fmt.Scanln(&username)
-	fmt.Println("Please input your MYSQL password: (default=\"\")")
-	fmt.Scanln(&password)
-	fmt.Println("Please input your MYSQL host: (default: localhost:3306)")
-	fmt.Scanln(&host)
-	fmt.Println("Please input your MYSQL db_name(where cashiers Table exists): ")
-	fmt.Scanln(&db_name)
+	db_name = "users_db"
 
 	cashiers_db.Init(username, password, host, db_name)
 
