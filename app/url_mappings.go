@@ -4,6 +4,7 @@ import (
 	"github.com/DeVasu/gotoken-api/controllers/cashiers"
 	"github.com/DeVasu/gotoken-api/controllers/categories"
 	"github.com/DeVasu/gotoken-api/controllers/ping"
+	"github.com/DeVasu/gotoken-api/controllers/products"
 )
 
 func mapUrls() {
@@ -23,5 +24,9 @@ func mapUrls() {
 	router.GET("/categories/:categoryId", categories.GetById)
 	router.PUT("/categories/:categoryId", categories.Update)
 	router.DELETE("/categories/:categoryId", categories.Delete)
+
+	router.POST("/products", products.Create)
+	router.GET("/products", products.List)
+	router.GET("/products/:productId", products.GetById)
 
 }
