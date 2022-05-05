@@ -1,4 +1,4 @@
-package products
+package payments
 
 import (
 	// "net/http"
@@ -13,7 +13,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/DeVasu/gotoken-api/domain/products"
+	"github.com/DeVasu/gotoken-api/domain/payments"
 	"github.com/DeVasu/gotoken-api/utils"
 	"github.com/federicoleon/bookstore_utils-go/rest_errors"
 	"github.com/gin-gonic/gin"
@@ -31,15 +31,15 @@ func getUserId(userIdParam string) (int64, rest_errors.RestErr) {
 
 func Delete(c *gin.Context) {
 
-	productId, idErr := getUserId(c.Param("productId"))
+	paymentId, idErr := getUserId(c.Param("paymentId"))
 	if idErr != nil {
 		c.JSON(idErr.Status(), idErr)
 		return
 	}
 
-	var temp products.Product
+	var temp payments.Payment
 
-	temp.Id = productId
+	temp.Id = paymentId
 	err := temp.Delete()
 	if err != nil {
 		c.JSON(err.Status(), err)
@@ -56,19 +56,19 @@ func Delete(c *gin.Context) {
 
 func Update(c *gin.Context) {
 
-	productId, idErr := getUserId(c.Param("productId"))
+	paymentId, idErr := getUserId(c.Param("paymentId"))
 	if idErr != nil {
 		c.JSON(idErr.Status(), idErr)
 		return
 	}
 
-	var temp products.Product
+	var temp payments.Payment
 	if err := c.ShouldBindJSON(&temp); err != nil {
 		c.JSON(http.StatusBadGateway, err)
 		return
 	}
 
-	temp.Id = productId
+	temp.Id = paymentId
 
 	err := temp.Update()
 	if err != nil {
@@ -87,13 +87,13 @@ func Update(c *gin.Context) {
 
 func GetById(c *gin.Context) {
 	
-	productId, idErr := getUserId(c.Param("productId"))
+	paymentId, idErr := getUserId(c.Param("paymentId"))
 	if idErr != nil {
 		c.JSON(idErr.Status(), idErr)
 		return
 	}
-	result := &products.Product{
-		Id: productId,
+	result := &payments.Payment{
+		Id: paymentId,
 	}
 	err := result.GetById()
 	if err != nil {
@@ -106,7 +106,7 @@ func GetById(c *gin.Context) {
 // //i want to list cashiers
 func List(c *gin.Context) {
 
-	result := &products.Product{}
+	result := &payments.Payment{}
 	
 
 	listOf, err := result.List()
@@ -124,7 +124,7 @@ func List(c *gin.Context) {
 
 func Create(c *gin.Context) {
 
-	res := &products.Product{}
+	res := &payments.Payment{}
 	
 	if err := c.ShouldBindJSON(&res); err != nil {
 		c.JSON(http.StatusBadRequest, err)

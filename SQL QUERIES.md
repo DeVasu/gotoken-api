@@ -16,3 +16,18 @@
 
 ALTER TABLE products
 modify column createdAt varchar(255);
+
+curl --location --request PUT 'http://localhost:3030/products/1' \
+--data-raw '{
+    "categoryId": 1
+}'
+
+CREATE TABLE payments (
+    id int NOT NULL AUTO_INCREMENT,
+    name varchar(255) NOT NULL,
+    type varchar(255) NOT NULL,
+    logo varchar(255) ,
+    updatedAt varchar(255),
+    createdAt varchar(255),
+    PRIMARY KEY(id)
+)   
