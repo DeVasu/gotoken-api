@@ -16,7 +16,7 @@ func StartApplication() {
 
 	fmt.Println("You need to add information about MYSQL server to start")
 
-// 	var username, password, host, db_name string
+	var username, password, host, db_name string
 	host = "localhost:3306"
 	username = "root"
 	password = ""
